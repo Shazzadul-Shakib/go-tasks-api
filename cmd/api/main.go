@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/Shazzadul-Shakib/go-tasks-api/internal/config"
+	"github.com/Shazzadul-Shakib/go-tasks-api/internal/router"
 )
 
 func main() {
@@ -25,11 +26,11 @@ func main() {
 func run() error {
 	cfg := config.Load()
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
-	
+	engine := router.New(logger)
 
 	srv := &http.Server{
 		Addr:              cfg.Addr,
-		// Handler:           engine,
+		Handler:           engine,
 		ReadHeaderTimeout: 5 * time.Second,
 		ReadTimeout:       10 * time.Second,
 		WriteTimeout:      15 * time.Second,
